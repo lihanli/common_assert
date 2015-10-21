@@ -1,7 +1,5 @@
 require 'spec_helper'
 
-configure_rspec_expectation_syntax(:expect)
-
 RSpec.describe(CommonAssert) {
   include CommonAssert
 
