@@ -1,24 +1,19 @@
-class CommonAssert
-  def initialize
-    @assert_syntax = if defined?(RSpec)
+module CommonAssert
+  def self.included(klass)
+    assert_code = if defined?(RSpec)
       if RSpec.configuration.expect_with[0].configuration.syntax.include?(:expect)
-        :rspec_expect
+        'expect(value).to eq(expected)'
       else
-        :rspec_should
+        'value.should == expected'
       end
     else
-      :test_unit
+      'assert_equal(expected, value)'
     end
-  end
 
-  def equal(value, expected)
-    case @assert_syntax
-    when :rspec_expect
-      expect(value).to eq(expected)
-    when :rspec_should
-      value.should == expected
-    else
-      assert_equal(expected, value)
-    end
+    class_eval %Q(
+      def common_assert_equal(value, expected)
+        #{assert_code}
+      end
+    )
   end
 end
