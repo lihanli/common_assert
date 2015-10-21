@@ -1,10 +1,6 @@
 require 'spec_helper'
 
-RSpec.configure { |config|
-  config.expect_with(:rspec) { |c|
-    c.syntax = :expect
-  }
-}
+configure_rspec_expectation_syntax(:expect)
 
 RSpec.describe(CommonAssert) {
   include CommonAssert
